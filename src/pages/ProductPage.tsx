@@ -126,7 +126,7 @@ export function ProductPage() {
               </div>
             ))}
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 hidden flex-wrap items-center gap-4 md:flex">
               <div className="flex items-center gap-1 rounded-full border border-line bg-white p-1">
                 <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="flex h-10 w-10 items-center justify-center rounded-full text-muted hover:text-ink" aria-label="Diminuer" data-cursor="hover"><Minus size={16} /></button>
                 <span className="w-8 text-center text-sm font-semibold tabular-nums">{qty}</span>
@@ -165,17 +165,39 @@ export function ProductPage() {
 
       {/* Barre d'achat fixe (mobile uniquement) */}
       <div className="buybar">
-        <div className="min-w-0">
-          <p className="truncate text-[11px] text-muted">{product.name}</p>
-          <p className="font-display text-lg font-bold text-forest">{formatPrice(price)}</p>
+        <div className="buybar-qty flex shrink-0 items-center gap-0.5 rounded-full border border-line bg-white p-0.5">
+          <button
+            type="button"
+            onClick={() => setQty((q) => Math.max(1, q - 1))}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted hover:text-ink"
+            aria-label="Diminuer la quantité"
+          >
+            <Minus size={15} />
+          </button>
+          <span className="w-7 text-center text-sm font-semibold tabular-nums text-ink">{qty}</span>
+          <button
+            type="button"
+            onClick={() => setQty((q) => q + 1)}
+            className="flex h-9 w-9 items-center justify-center rounded-full text-muted hover:text-ink"
+            aria-label="Augmenter la quantité"
+          >
+            <Plus size={15} />
+          </button>
         </div>
+
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-[11px] text-muted">{product.name}</p>
+          <p className="font-display text-base font-bold text-forest">{formatPrice(price * qty)}</p>
+        </div>
+
         <button
           type="button"
           disabled={!current}
           onClick={() => current && addToCart(product, current, qty)}
-          className="add rounded-full bg-leaf px-5 font-semibold text-white transition-colors hover:bg-leaf-deep disabled:bg-muted"
+          className="add inline-flex items-center justify-center gap-1.5 rounded-full bg-leaf px-4 font-semibold text-white transition-colors hover:bg-leaf-deep disabled:bg-muted"
         >
-          {current ? 'Ajouter au panier' : 'Indisponible'}
+          <ShoppingBag size={16} />
+          <span>{current ? 'Ajouter au panier' : 'Indisponible'}</span>
         </button>
       </div>
     </main>

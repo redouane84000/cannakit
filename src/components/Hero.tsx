@@ -12,7 +12,7 @@ export function Hero() {
         aria-label="Découvrir la boutique — L'essentiel du CBD pour votre bien-être"
         className="group mx-auto block w-full max-w-7xl overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_16px_48px_rgba(46,97,69,0.1)]"
       >
-        <div className="aspect-[3/2] w-full overflow-hidden sm:aspect-[21/9] md:aspect-[8/3]">
+        <div className="aspect-[10/7] w-full overflow-hidden sm:aspect-[21/9] md:aspect-[8/3]">
           <img
             src="/products/gpt.png"
             alt="CannaKit — L'essentiel du CBD pour votre bien-être. Fleurs, huiles et accessoires."

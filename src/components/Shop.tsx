@@ -52,33 +52,33 @@ export function Shop() {
   const pageItems = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE)
 
   return (
-    <section id="shop" className="px-4 py-16 md:px-8 md:py-24" aria-labelledby="shop-heading">
+    <section id="shop" className="px-3 py-12 md:px-8 md:py-24" aria-labelledby="shop-heading">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col gap-2">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-leaf">Boutique</p>
           <h2 id="shop-heading" className="font-display text-3xl font-bold text-ink md:text-5xl">Tous les produits</h2>
         </div>
 
-        <div className="sticky top-[132px] z-30 mb-8 flex flex-col gap-3 rounded-[18px] border border-line bg-paper/85 p-3 backdrop-blur-md md:flex-row md:items-center">
-          <div className="relative flex-1">
+        <div className="shop-filters sticky top-[108px] z-30 mb-8 flex w-full min-w-0 flex-col gap-3 overflow-hidden rounded-[18px] border border-line bg-paper/85 p-3 backdrop-blur-md md:top-[132px] md:flex-row md:items-center">
+          <div className="relative min-w-0 flex-1">
             <Search size={17} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-muted" />
-            <input id="shop-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Rechercher un produit…" className="w-full rounded-full border border-line bg-white py-3 pl-10 pr-9 text-sm text-ink placeholder:text-muted/60 focus:border-leaf" />
+            <input id="shop-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Rechercher un produit…" className="w-full min-w-0 rounded-full border border-line bg-white py-2.5 pl-10 pr-9 text-sm text-ink placeholder:text-muted/60 focus:border-leaf md:py-3" />
             {query && (
               <button type="button" onClick={() => setQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-ink" aria-label="Effacer" data-cursor="hover"><X size={15} /></button>
             )}
           </div>
-          <div className="flex gap-3">
-            <label className="relative flex items-center">
+          <div className="grid w-full min-w-0 grid-cols-2 gap-2 md:flex md:w-auto md:shrink-0 md:gap-3">
+            <label className="relative flex min-w-0 items-center">
               <span className="sr-only">Catégorie</span>
-              <select value={category} onChange={(e) => setCategory(e.target.value)} className="appearance-none rounded-full border border-line bg-white py-3 pl-4 pr-9 text-sm text-ink focus:border-leaf" data-cursor="hover">
+              <select value={category} onChange={(e) => setCategory(e.target.value)} className="w-full min-w-0 appearance-none rounded-full border border-line bg-white py-2.5 pl-3 pr-8 text-xs text-ink focus:border-leaf md:py-3 md:pl-4 md:pr-9 md:text-sm" data-cursor="hover">
                 <option value="all">Toutes catégories</option>
                 {categories.map((c) => (<option key={c} value={c}>{c}</option>))}
               </select>
-              <SlidersHorizontal size={15} className="pointer-events-none absolute right-3 text-muted" />
+              <SlidersHorizontal size={14} className="pointer-events-none absolute right-2.5 text-muted md:right-3" />
             </label>
-            <label className="relative flex items-center">
+            <label className="relative flex min-w-0 items-center">
               <span className="sr-only">Trier</span>
-              <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="appearance-none rounded-full border border-line bg-white py-3 pl-4 pr-9 text-sm text-ink focus:border-leaf" data-cursor="hover">
+              <select value={sort} onChange={(e) => setSort(e.target.value as SortKey)} className="w-full min-w-0 appearance-none rounded-full border border-line bg-white py-2.5 pl-3 pr-3 text-xs text-ink focus:border-leaf md:py-3 md:pl-4 md:pr-9 md:text-sm" data-cursor="hover">
                 {sortOptions.map((o) => (<option key={o.value} value={o.value}>{o.label}</option>))}
               </select>
             </label>
@@ -90,10 +90,10 @@ export function Shop() {
         {pageItems.length === 0 ? (
           <p className="py-16 text-center text-muted">Aucun produit ne correspond à votre recherche.</p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="shop-grid grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
             {pageItems.map((p, i) => (
-              <motion.div key={p.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.3), ease: 'easeOut' }}>
-                <ProductCard product={p} />
+              <motion.div key={p.id} className="shop-grid__item flex w-full min-w-0" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.3), ease: 'easeOut' }}>
+                <ProductCard product={p} shopGrid />
               </motion.div>
             ))}
           </div>
