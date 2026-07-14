@@ -25,3 +25,5 @@ dist-ssr
 
 # Temp / scrape
 tmp-*.html
+
+.vercel
