@@ -1,0 +1,231 @@
+@import "tailwindcss";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+
+@theme {
+  --font-display: "Poppins", system-ui, sans-serif;
+  --font-body: "Poppins", system-ui, sans-serif;
+  --font-mono: "Poppins", system-ui, sans-serif;
+
+  --color-paper: #edf0ef;
+  --color-cream: #f6f3ec;
+  --color-ink: #22312a;
+  --color-forest: #2e6145;
+  --color-leaf: #33684c;
+  --color-leaf-deep: #234f39;
+  --color-leaf-soft: #e3efe7;
+  --color-mint: #eef4ef;
+  --color-sand: #dab086;
+  --color-sand-soft: #efe2cf;
+  --color-muted: #6e7e76;
+  --color-line: rgba(46, 97, 69, 0.14);
+
+  --radius-card: 22px;
+  --radius-lg: 28px;
+}
+
+:root {
+  color-scheme: light;
+  --paper: #edf0ef;
+  --ink: #22312a;
+  --forest: #2e6145;
+  --leaf: #33684c;
+  --leaf-deep: #234f39;
+  --leaf-soft: #e3efe7;
+  --sand: #dab086;
+  --muted: #6e7e76;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Boutique masquée tant que l'âge n'est pas confirmé */
+body:not(.age-verified) #app-shell {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Révélation de la boutique après la porte d'âge */
+@keyframes siteReveal {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+.site-reveal #app-shell {
+  visibility: visible;
+  pointer-events: auto;
+  animation: siteReveal 0.9s ease both;
+}
+body.age-verified:not(.site-reveal) #app-shell {
+  visibility: visible;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-reveal #app-shell { animation: none; }
+}
+
+#root { isolation: isolate; }
+
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+.font-mono { font-family: var(--font-mono); }
+
+/* Soft warm background */
+.mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(ellipse 70% 55% at 10% 6%, rgba(51, 104, 76, 0.1), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 92% 10%, rgba(218, 176, 134, 0.16), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(51, 104, 76, 0.06), transparent 55%),
+    var(--paper);
+}
+
+.grain-overlay { display: none; }
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+/* Kinetic (kept, forest gradient) */
+.kinetic-char { display: inline-block; will-change: transform, opacity; }
+.kinetic-fill {
+  background: linear-gradient(115deg, var(--leaf-deep) 0%, var(--leaf) 50%, #6fae86 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Soft heading hover (used in newsletter) */
+.stroke-title {
+  color: var(--leaf-soft);
+  transition: color 0.5s ease;
+}
+.stroke-title:hover,
+.stroke-title:focus-visible { color: var(--forest); }
+
+:focus-visible {
+  outline: 2px solid var(--leaf);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* Custom cursor (forest ring) */
+.custom-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: var(--leaf);
+  box-shadow: 0 0 0 1px rgba(51, 104, 76, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+}
+.custom-cursor--hover {
+  width: 42px; height: 42px;
+  background: rgba(51, 104, 76, 0.12);
+  box-shadow: 0 0 0 1px rgba(51, 104, 76, 0.35);
+}
+@media (prefers-reduced-motion: reduce), (pointer: coarse) {
+  .custom-cursor { display: none; }
+}
+
+/* Product tilt + media zoom */
+.tilt-inner { transform-style: preserve-3d; transition: transform 0.12s ease-out; }
+@media (prefers-reduced-motion: reduce) { .tilt-inner { transition: none; } }
+.card-media img { transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1); }
+.group:hover .card-media img { transform: scale(1.06); }
+@media (prefers-reduced-motion: reduce) { .group:hover .card-media img { transform: none; } }
+
+/* Blob */
+.blob-glow {
+  position: absolute;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(218, 176, 134, 0.5) 0%, rgba(51, 104, 76, 0.18) 45%, transparent 70%);
+  filter: blur(55px);
+  animation: blobPulse 9s ease-in-out infinite alternate;
+}
+@keyframes blobPulse {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.16) translate(20px, -16px); }
+}
+@media (prefers-reduced-motion: reduce) { .blob-glow { animation: none; } }
+
+[data-reveal-item] { will-change: transform, opacity; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: rgba(46, 97, 69, 0.22); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--leaf); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Barre d'achat mobile : masquée par défaut (desktop intact) */
+.buybar { display: none; }
+
+body { -webkit-tap-highlight-color: transparent; }
+html, body { max-width: 100vw; }
+
+/* ===== MOBILE ( <= 768px ) — NE PAS MÉLANGER AU DESKTOP ===== */
+@media (max-width: 768px) {
+  /* Fix iOS / safe-area */
+  #root { overflow-x: hidden; max-width: 100vw; }
+
+  /* PATTERN 1 — rangée horizontale à snap (grosses cartes, la suivante dépasse) */
+  .mobile-hrow {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px max(14px, env(safe-area-inset-left)) 12px;
+    margin-inline: -4px;
+    scrollbar-width: none;
+  }
+  .mobile-hrow::-webkit-scrollbar { display: none; }
+  .mobile-hrow > * {
+    flex: 0 0 74%;
+    scroll-snap-align: start;
+  }
+
+  /* PATTERN 6 — barre d'achat fixe en bas de la page produit */
+  .buybar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px max(16px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom));
+    background: var(--paper);
+    border-top: 1px solid var(--color-line);
+    box-shadow: 0 -8px 30px rgba(15, 21, 18, 0.08);
+  }
+  .buybar .add { flex: 1; min-height: 52px; }
+  .has-buybar { padding-bottom: 96px; }
+
+  /* cibles tactiles confortables */
+  .buybar button { min-height: 44px; }
+}
